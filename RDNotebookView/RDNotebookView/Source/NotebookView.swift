@@ -25,6 +25,7 @@
 
 import UIKit
 
+/// RDNotebookView: The visual representation of a single row in a notebook view.
 open class NotebookViewCell: UIView {
     
     fileprivate var zOrder = Int.zero
@@ -35,28 +36,116 @@ fileprivate class NotebookViewCellWrapper: UIView {
     
 }
 
+/// RDNotebookView: The methods adopted by the object you use to manage data and provide cells for a notebook view.
+///
+/// Notebook views manage only the presentation of their data; they do not manage the data itself. To manage the data, you provide the notebook with a data source object—that is, an object that implements the NotebookViewDataSource protocol. A data source object responds to data-related requests from the notebook. It also manages the notebooks's data directly, or coordinates with other parts of your app to manage that data. Other responsibilities of the data source object include:
+/// * Reporting the number of sections in the notebook.
+/// * Providing cells for each row of the notebook.
+/// * Configuring the notebook's index, if any.
+/// * Responding to user- or notebook-initiated updates that require changes to the underlying data.
+///
+/// Only two methods of this protocol are required, and they are shown in the following example code.
+///
+/// ````
+/// // Return the number of sections for the notebook.
+/// override func numberOfSectionsInNotebookView(_ notebookView: NotebookView) -> Int {
+///    // NOTE: Number of sections should always be more than 0.
+///    return 1
+/// }
+///
+/// // Provide a cell object for each row.
+/// override func notebookView(_ notebookView: NotebookView, cellForRowAtIndexPath indexPath: IndexPath) -> NotebookViewCell {
+///    // Fetch a cell of the appropriate type.
+///    let cell = notebookView.dequeueReusableCell(withIdentifier: "cellTypeIdentifier")
+///
+///    // Configure the cell’s contents. For example:
+///    cell.textLabel.text = "Cell text"
+///
+///    return cell
+/// }
+/// ````
+///
+/// There is no numberOfRows method in this protocol as there are always 2 rows per section.
 @objc public protocol NotebookViewDataSource: class {
     
+    /// RDNotebookView: Asks the data source to return the number of sections in the notebook view.
+    ///
+    /// - important: NOTE: This method should always return a greater number than 0.
+    ///
+    /// - parameter notebookView: An object representing the notebook view requesting this information.
+    ///
+    /// - returns: The number of sections in notebookView.
     @objc func numberOfSectionsInNotebookView(_ notebookView: NotebookView) -> Int
     
+    /// RDNotebookView: Asks the data source for a cell to insert in a particular location of the notebook view.
+    ///
+    /// In your implementation, create and configure an appropriate cell for the given index path. Create your cell using the notebook view's dequeueReusableCell(withIdentifier:) method, which recycles or creates the cell for you. After creating the cell, update the properties of the cell with appropriate data values.
+    /// - important: Never call this method yourself. If you want to retrieve cells from your notebook, call the notebook view's cellForRow(at:) method instead.
+    ///
+    /// - parameter notebookView: A notebook-view object requesting the cell.
+    /// - parameter indexPath: An index path locating a row in notebookView.
+    ///
+    /// - returns: An object inheriting from NotebookViewCell that the notebook view can use for the specified row.
     @objc func notebookView(_ notebookView: NotebookView, cellForRowAtIndexPath indexPath: IndexPath) -> NotebookViewCell
     
 }
 
+/// RDNotebookView: Methods for managing selections and informing about cell lifecycle.
+///
+/// Use the methods of this protocol to manage the following features:
+/// * Respond to row selections.
+/// * Get informed about row lifecycle and additional stuff as needed.
+///
+/// The notebook view specifies rows and sections using IndexPath objects.
 @objc public protocol NotebookViewDelegate: UIScrollViewDelegate {
     
+    /// RDNotebookView: Tells the delegate that the specified row is now selected.
+    ///
+    /// - parameter notebookView: A notebook-view object informing the delegate about the new row selection.
+    /// - parameter indexPath: An index path locating the new selected row in notebookView.
     @objc optional func notebookView(_ notebookView: NotebookView, didSelectRowAtIndexPath indexPath: IndexPath)
     
+    /// RDNotebookView: Tells the delegate the notebook view is about to load a cell for a particular row.
+    ///
+    /// A notebook view sends this message to its delegate just before it uses cell to draw a row, thereby permitting the delegate to customize the cell object before it is displayed. This method gives the delegate a chance to override state-based properties set earlier by the notebook view, such as background color. After the delegate returns, the notebook view sets only the frame property, and then only when animating rows as they slide in or out.
+    ///
+    /// - parameter notebookView: The notebook-view object informing the delegate of this impending event.
+    /// - parameter indexPath: An index path locating the row in notebookView.
     @objc optional func notebookView(_ notebookView: NotebookView, willLoadRowAtIndexPath indexPath: IndexPath)
     
+    /// RDNotebookView: Tells the delegate the notebook view has loaded a cell for a particular row.
+    ///
+    /// A notebook view sends this message to its delegate just after it uses cell to draw a row, thereby permitting the delegate to customize the cell object after it is displayed.
+    ///
+    /// - parameter notebookView: The notebook-view object informing the delegate of this impending event.
+    /// - parameter indexPath: An index path locating the row in notebookView.
     @objc optional func notebookView(_ notebookView: NotebookView, didLoadRowAtIndexPath indexPath: IndexPath)
     
+    /// RDNotebookView: Tells the delegate that the specified cell will be unloaded from the notebook.
+    ///
+    /// Use this method to detect when a cell will be unloaded from a notebook view, as opposed to monitoring the view itself to see when it appears or disappears.
+    ///
+    /// - parameter notebookView: The notebook-view object that will unload the view.
+    /// - parameter indexPath: The index path of the cell.
     @objc optional func notebookView(_ notebookView: NotebookView, willUnloadRowAtIndexPath indexPath: IndexPath)
     
+    /// RDNotebookView: Tells the delegate that the specified cell was unloaded from the notebook.
+    ///
+    /// Use this method to detect when a cell is unloaded from a notebook view, as opposed to monitoring the view itself to see when it appears or disappears.
+    ///
+    /// - parameter notebookView: The notebook-view object that unloaded the view.
+    /// - parameter indexPath: The index path of the cell.
     @objc optional func notebookView(_ notebookView: NotebookView, didUnloadRowAtIndexPath indexPath: IndexPath)
     
 }
 
+/// RDNotebookView: A view that presents data using rows arranged in a single column.
+///
+/// Notebook views on iOS display a single column of vertically or horizonally scrolling content, divided into rows. Each row in the notebook contains one piece of your app’s content. For example, the Contacts app displays the name of each contact in a separate row, and the main page of the Settings app displays the available groups of settings. You can configure a notebook to display group rows into sections to make navigating the content easier. Each group always contains 2 rows.
+///
+/// Notebooks are commonly used by apps whose data is highly structured or organized hierarchically. Apps that contain hierarchical data often use notebooks in conjunction with a navigation view controller, which facilitates navigation between different levels of the hierarchy. For example, the Settings app uses notebooks and a navigation controller to organize the system settings.
+///
+/// NotebookView manages the basic appearance of the notebook, but your app provides the cells (NotebookViewCell objects) that display the actual content. The standard cell configurations display a simple combination of text and images, but you can define custom cells that display any content you want.
 open class NotebookView: UIView {
     
     fileprivate final class ScrollView: UIScrollView {
@@ -132,6 +221,13 @@ open class NotebookView: UIView {
         
     }
     
+    /// RDNotebookView: This property specifies the scroll direction
+    ///
+    /// The notebook layout scrolls along one axis only, either horizontally or vertically.
+    ///
+    /// Set `true` as a value of this property to make notebook horizontally scrollable.
+    ///
+    /// Set `false` as a value of this property to make notebook vertically scrollable.
     @IBInspectable open var scrollsHorizontally: Bool { get { return self.scrollView.scrollsHorizontally } set { self.scrollView.scrollsHorizontally = newValue } }
     @IBInspectable fileprivate var separatorSize: CGFloat { get { return self.scrollView.separatorSize } set { self.scrollView.separatorSize = newValue } }
     
@@ -157,9 +253,13 @@ open class NotebookView: UIView {
         }
     }
     
+    /// RDNotebookView: The object that acts as the data source of the notebook view.
     @IBOutlet open weak var dataSource: NotebookViewDataSource?
+    
+    /// RDNotebookView: The object that acts as the delegate of the notebook view.
     @IBOutlet open weak var delegate: NotebookViewDelegate?
     
+    /// RDNotebookView: The number of sections in the notebook view.
     open private(set) var numberOfSections = Int.zero
     
     required public init?(coder aDecoder: NSCoder)
@@ -539,11 +639,25 @@ open class NotebookView: UIView {
         }
     }
     
+    /// NotebookView: Registers a nib object containing a cell with the notebook view under a specified identifier.
+    ///
+    /// Before dequeueing any cells, call this method to tell the notebook view how to create new cells. If a cell of the specified type is not currently in a reuse queue, the notebook view uses the provided information to create a new cell object automatically.
+    ///
+    /// If you previously registered a nib file with the same reuse identifier, the nib you specify in the nib parameter replaces the old entry. You may specify nil for nib if you want to unregister the nib from the specified reuse identifier.
+    /// - parameter nib: A nib object that specifies the nib file to use to create the cell.
+    /// - parameter identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
     open func register(_ nib: UINib?, forCellReuseIdentifier identifier: String)
     {
         self.notebookViewCellNibs[identifier] = nib
     }
     
+    /// NotebookView: Returns a reusable notebook-view cell object located by its identifier.
+    ///
+    /// For performance reasons, a notebook view’s data source should generally reuse NotebookViewCell objects when it assigns cells to rows in its notebookView(_:cellForRowAt:) method. A notebook view maintains a queue or list of NotebookViewCell objects that the data source has marked for reuse. Call this method from your data source object when asked to provide a new cell for the notebook view. This method dequeues an existing cell if one is available or creates a new one using the nib file you previously registered. If no cell is available for reuse and you did not register a nib file, this method returns nil.
+    ///
+    /// - parameter identifier: A string identifying the cell object to be reused. This parameter must not be nil.
+    ///
+    /// - returns: A NotebookViewCell object with the associated identifier or nil if no such object exists in the reusable-cell queue.
     open func dequeueReusableCell(withIdentifier identifier: String) -> NotebookViewCell
     {
         let notebookViewCell = self.loadNotebookViewCell(forIdentifier: identifier) ?? self.instantiateNotebookViewCell(forIdentifier: identifier)
@@ -593,6 +707,9 @@ open class NotebookView: UIView {
         }
     }
     
+    /// NotebookView: Reloads the rows and sections of the notebook view.
+    ///
+    /// Call this method to reload all the data that is used to construct the notebook, including cells, index arrays, and so on. For efficiency, the notebook view redisplays only those rows that are visible. The notebook view’s delegate or data source calls this method when it wants the notebook view to completely reload its data.
     open func reloadData()
     {
         self.scrollView.setContentOffset(.zero, animated: false)
@@ -626,6 +743,12 @@ open class NotebookView: UIView {
         }
     }
     
+    /// NotebookView: Scrolls through the notebook view until a section identified by the first given parameter is at a particular location on the screen.
+    ///
+    /// Invoking this method does not cause the delegate to receive a scrollViewDidScroll(_:) message, as is normal for programmatically invoked user interface operations.
+    ///
+    /// - parameter section: Aa integer that identifies a section in the notebook view.
+    /// - parameter animated: `true` if you want to animate the change in position; `false` if it should be immediate.
     open func scrollTo(section: Int, animated: Bool)
     {
         self.scrollView.setContentOffset(
