@@ -10,6 +10,8 @@
 		723DAEFD23CDBA7200BD4B32 /* RDNotebookView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 728429C923CDB0210082617C /* RDNotebookView.framework */; };
 		723DAEFE23CDBA7200BD4B32 /* RDNotebookView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 728429C923CDB0210082617C /* RDNotebookView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		723DAF0123CDBAB900BD4B32 /* NotebookView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 723DAF0023CDBAB900BD4B32 /* NotebookView.storyboard */; };
+		72684ED423CDF7FE004BDCFA /* vertical.gif in Resources */ = {isa = PBXBuildFile; fileRef = 72684ED223CDF7FE004BDCFA /* vertical.gif */; };
+		72684ED523CDF7FE004BDCFA /* horizontal.gif in Resources */ = {isa = PBXBuildFile; fileRef = 72684ED323CDF7FE004BDCFA /* horizontal.gif */; };
 		728429CE23CDB0210082617C /* RDNotebookView.h in Headers */ = {isa = PBXBuildFile; fileRef = 728429CC23CDB0210082617C /* RDNotebookView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		728429D523CDB02D0082617C /* NotebookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728429D423CDB02D0082617C /* NotebookView.swift */; };
 		728429DF23CDB2DC0082617C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728429DE23CDB2DC0082617C /* AppDelegate.swift */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		723DAF0023CDBAB900BD4B32 /* NotebookView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotebookView.storyboard; sourceTree = "<group>"; };
+		72684ED223CDF7FE004BDCFA /* vertical.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = vertical.gif; sourceTree = "<group>"; };
+		72684ED323CDF7FE004BDCFA /* horizontal.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = horizontal.gif; sourceTree = "<group>"; };
 		728429C923CDB0210082617C /* RDNotebookView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RDNotebookView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		728429CC23CDB0210082617C /* RDNotebookView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDNotebookView.h; sourceTree = "<group>"; };
 		728429CD23CDB0210082617C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -84,6 +88,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		72684ED123CDF7F4004BDCFA /* Gifs */ = {
+			isa = PBXGroup;
+			children = (
+				72684ED223CDF7FE004BDCFA /* vertical.gif */,
+				72684ED323CDF7FE004BDCFA /* horizontal.gif */,
+			);
+			path = Gifs;
 			sourceTree = "<group>";
 		};
 		728429BF23CDB0210082617C = {
@@ -205,6 +218,7 @@
 		728429FB23CDB63A0082617C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				72684ED123CDF7F4004BDCFA /* Gifs */,
 				728429FC23CDB6400082617C /* Images */,
 			);
 			path = Resources;
@@ -319,9 +333,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72684ED523CDF7FE004BDCFA /* horizontal.gif in Resources */,
 				728429F123CDB37E0082617C /* ViewNotebookViewCell.xib in Resources */,
 				728429EB23CDB2E10082617C /* LaunchScreen.storyboard in Resources */,
 				723DAF0123CDBAB900BD4B32 /* NotebookView.storyboard in Resources */,
+				72684ED423CDF7FE004BDCFA /* vertical.gif in Resources */,
 				728429E823CDB2E10082617C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
