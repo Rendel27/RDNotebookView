@@ -11,6 +11,10 @@ NotebookView mechanism works mostly the same way as UITableView does.
 
 
 
+![](https://raw.githubusercontent.com/Rendel27/RDNotebookView/master/RDNotebookView/RDNotebookViewExample/Resources/Gifs/vertical.gif) ![](https://raw.githubusercontent.com/Rendel27/RDNotebookView/master/RDNotebookView/RDNotebookViewExample/Resources/Gifs/horizontal.gif)
+
+
+
 ## Installation
 
 - **Manually**  
